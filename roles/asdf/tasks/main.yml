@@ -6,6 +6,11 @@
       - git
     state: present
 
+- name: install github_release module dependencies
+  pip:
+    name: github3==2.0.0
+    extra_args: --user
+
 - name: fetch latest asdf version
   community.general.github_release:
     user: asdf-vm
