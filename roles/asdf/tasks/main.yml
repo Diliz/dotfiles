@@ -1,0 +1,5 @@
+- name: asdf Installation
+  become: yes
+  package:
+    name: asdf
+    state: present

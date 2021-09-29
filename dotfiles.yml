@@ -1,0 +1,4 @@
+- name: Dotfiles installation
+  hosts: local
+  roles:
+    - asdf
