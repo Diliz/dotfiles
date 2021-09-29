@@ -10,7 +10,7 @@ are needed.
 
 To install this scripts, use the following command:
 ```bash
-$ wget -O - https://raw.githubusercontent.com/diliz/dotfiles/main/install.sh | bash
+wget -O - https://raw.githubusercontent.com/diliz/dotfiles/main/install.sh && ./install.sh
 ```
 
 ## What is installed with this script
