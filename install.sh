@@ -15,8 +15,9 @@ function install_dependencies () {
 }
 
 function install_dotfiles () {
-    git clone https://github.com/Diliz/dotfiles.git ~/.dotfiles
-    cd ~/.dotfiles && ansible-playbook dotfiles.yml --ask-become-pass
+    rm -Rf $HOME/.dotfiles
+    git clone https://github.com/Diliz/dotfiles.git $HOME/.dotfiles
+    cd $HOME/.dotfiles && ansible-playbook dotfiles.yml --ask-become-pass
 }
 
 function install () {
