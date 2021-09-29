@@ -1,4 +1,5 @@
 - name: Dotfiles installation
   hosts: local
   roles:
+    - oh_my_bash
     - asdf

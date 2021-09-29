@@ -1,5 +1,21 @@
-- name: asdf Installation
+- name: asdf dependencies installation
   become: yes
   package:
-    name: asdf
+    name:
+      - curl
+      - git
     state: present
+
+- name: fetch latest asdf version
+  community.general.github_release:
+    user: asdf-vm
+    repo: asdf
+    action: latest_release
+  register: asdf_latest_version
+
+- name: asdf installation
+  git:
+    repo: "https://github.com/asdf-vm/asdf.git"
+    dest: $HOME/.asdf
+    single_branch: yes
+    version: "{{ asdf_latest_version.tag }}"
