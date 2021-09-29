@@ -9,6 +9,7 @@ function install_dependencies () {
            echo "Package manager not available"
        else
            eval $(echo sudo ${package_managers[$package_manager]} ${DEPENDENCIES})
+           ansible-galaxy collection install community.general
        fi
    done
    return 0
