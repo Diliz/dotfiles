@@ -9,15 +9,14 @@ function install_dependencies () {
            echo "Package manager not available"
        else
            eval $(echo sudo ${package_managers[$package_manager]} ${DEPENDENCIES})
-           ansible-galaxy collection install community.general
        fi
    done
    return 0
 }
 
 function install_dotfiles () {
-    rm -Rf $HOME/.dotfiles
-    git clone https://github.com/Diliz/dotfiles.git $HOME/.dotfiles
+#    rm -Rf $HOME/.dotfiles
+#    git clone https://github.com/Diliz/dotfiles.git $HOME/.dotfiles
     cd $HOME/.dotfiles && ansible-playbook dotfiles.yml --ask-become-pass
 }
 
