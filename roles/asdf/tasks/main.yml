@@ -6,21 +6,25 @@
       - git
     state: present
 
-- name: install github_release module dependencies
-  pip:
-    name: github3==2.0.0
-    extra_args: --user
-
-- name: fetch latest asdf version
-  community.general.github_release:
-    user: asdf-vm
-    repo: asdf
-    action: latest_release
-  register: asdf_latest_version
+- name: fetch tags from asdf repository
+  shell:
+    cmd: curl --silent 'https://api.github.com/repos/asdf-vm/asdf/tags'
+  register: asdf_tags_response
+  args:
+    warn: no  
 
 - name: asdf installation
   git:
     repo: "https://github.com/asdf-vm/asdf.git"
     dest: $HOME/.asdf
-    single_branch: yes
-    version: "{{ asdf_latest_version.tag }}"
+    version: "{{ asdf_tags_response.stdout | regex_search('v\\d+\\.\\d+\\.\\d+') }}"
+
+- name: add asdf to bashrc
+  lineinfile:
+    path: $HOME/.bashrc
+    line: "{{ item }}"
+    state: present
+  loop:
+    - ". $HOME/.asdf/asdf.sh"
+    - ". $HOME/.asdf/completions/asdf.bash"
+    - "OSH_THEME='agnoster'"
