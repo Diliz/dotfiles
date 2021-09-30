@@ -1,14 +1,5 @@
-- name: asdf dependencies installation
-  become: yes
-  package:
-    name:
-      - curl
-      - git
-    state: present
-
 - name: fetch tags from asdf repository
-  shell:
-    cmd: curl --silent 'https://api.github.com/repos/asdf-vm/asdf/tags'
+  shell: curl --silent 'https://api.github.com/repos/asdf-vm/asdf/tags'
   register: asdf_tags_response
   args:
     warn: no  
@@ -28,3 +19,16 @@
     - ". $HOME/.asdf/asdf.sh"
     - ". $HOME/.asdf/completions/asdf.bash"
     - "OSH_THEME='agnoster'"
+
+- name: install asdf plugins
+  shell: asdf list {{ item }} ||  asdf plugin-add {{ item }}
+  loop: "{{ asdf_plugins }}"
+
+- name: install asdf plugins packages
+  shell: asdf install {{ item }} latest
+  loop: "{{ asdf_plugins }}"
+
+- name: enable global asdf packages
+  shell: |
+    asdf current {{ item }} || asdf global {{ item }} latest
+  loop: "{{ asdf_plugins }}"

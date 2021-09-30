@@ -1,5 +1,9 @@
 - name: Dotfiles installation
   hosts: local
   roles:
-    - oh_my_bash
-    - asdf
+    - role: system_packages
+      tags: system_packages
+    - role: oh_my_bash
+      tags: oh_my_bash
+    - role: asdf
+      tags: asdf

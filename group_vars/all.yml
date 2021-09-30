@@ -1,0 +1,51 @@
+asdf_plugins:
+  - python
+  - nodejs
+  - vim
+  - golang
+  - argocd
+  - rust
+  - github-cli
+  - tmux
+  - terraform
+  - terraform-docs
+  - terraform-validator
+  - vault
+  - kubectl
+  - kubeval
+  - helm
+  - minio
+  - rclone
+  - pulumi
+  - poetry
+  - mkcert
+  - kubectx
+  - ansible-base
+
+system_packages:
+  - sshpass
+  - python3-argcomplete
+  - ansible-lint
+  - podman
+  - tar
+  - curl
+  - git
+  - coreutils
+  - flatpak
+  - libedit-dev
+  - build-essential
+  - libssl-dev
+  - zlib1g-dev
+  - libbz2-dev
+  - libreadline-dev
+  - libsqlite3-dev
+  - wget
+  - llvm
+  - libncursesw5-dev
+  - xz-utils
+  - tk-dev
+  - libxml2-dev
+  - libxmlsec1-dev
+  - libffi-dev
+  - liblzma-dev
+
