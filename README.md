@@ -8,9 +8,18 @@ are needed.
 
 ## Installation
 
-To install this scripts, use the following command:
+To install this scripts, use one of the following commands:
+
+- via curl:
+
 ```bash
-wget -O - https://raw.githubusercontent.com/diliz/dotfiles/main/install.sh && ./install.sh
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/diliz/dotfiles/main/install.sh)"
+```
+
+- via wget:
+
+```bash
+bash -c "$(wget https://raw.githubusercontent.com/diliz/dotfiles/main/install.sh -O -)"
 ```
 
 ## What is installed with this script
