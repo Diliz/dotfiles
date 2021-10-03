@@ -26,7 +26,8 @@ system_packages:
   - sshpass
   - python3-argcomplete
   - ansible-lint
-  - podman
+  - unzip
+  #- podman
   - tar
   - curl
   - git

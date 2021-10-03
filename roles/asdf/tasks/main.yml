@@ -20,15 +20,26 @@
     - ". $HOME/.asdf/completions/asdf.bash"
     - "OSH_THEME='agnoster'"
 
-- name: install asdf plugins
-  shell: asdf list {{ item }} ||  asdf plugin-add {{ item }}
-  loop: "{{ asdf_plugins }}"
-
-- name: install asdf plugins packages
-  shell: asdf install {{ item }} latest
-  loop: "{{ asdf_plugins }}"
-
-- name: enable global asdf packages
+- name: add asdf plugins
   shell: |
-    asdf current {{ item }} || asdf global {{ item }} latest
+    . $HOME/.asdf/asdf.sh
+    asdf plugin-add {{ item }}
+  args:
+    executable: /bin/bash
+  loop: "{{ asdf_plugins }}"
+
+- name: install latest plugin packages
+  shell: |
+    . $HOME/.asdf/asdf.sh
+    asdf install {{ item }} latest
+  args:
+    executable: /bin/bash
+  loop: "{{ asdf_plugins }}"
+
+- name: enable global plugin packages
+  shell: |
+    . $HOME/.asdf/asdf.sh
+    asdf global {{ item }} latest
+  args:
+    executable: /bin/bash
   loop: "{{ asdf_plugins }}"
