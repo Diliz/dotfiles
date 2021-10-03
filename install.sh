@@ -17,11 +17,11 @@ function install_dependencies () {
 function install_dotfiles () {
     DOTFILES_PATH="$HOME/.dotfiles"
     if [ -d "$DOTFILES_PATH" ]; then
-        cd $HOME/.dotfiles
+        cd $DOTFILES_PATH
         git pull origin main
     else
-        git clone https://github.com/Diliz/dotfiles.git $HOME/.dotfiles
-        cd $HOME/.dotfiles
+        git clone https://github.com/Diliz/dotfiles.git $DOTFILES_PATH
+        cd $DOTFILES_PATH
     fi
     ansible-galaxy collection install -r requirements.yml
     ANSIBLE_BECOME_PASSWORD=toto ansible-playbook dotfiles.yml

@@ -37,8 +37,7 @@ ARG HOME=/home/${NEW_USER}
 
 COPY install.sh ${HOME}/install.sh
 RUN bash ${HOME}/install.sh
-RUN source ${HOME}/.asdf/asdf.sh && \
-    asdf install ansible-base latest && \
-    asdf global ansible-base latest
+
+# RUN $HOME/.asdf/bin/asdf install ansible-base latest && $HOME/.asdf/bin/asdf global ansible-base latest
 
 # CMD ["/usr/sbin/sshd", "-D"]
