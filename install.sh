@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-DEPENDENCIES="git ansible-mitogen"
+DEPENDENCIES="git ansible"
 
 function install_dependencies () {
    declare -A package_managers=([apt]="apt install -y" [yum]="yum install -y" [pacman]="pacman -Sy")
