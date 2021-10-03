@@ -1,9 +1,19 @@
 - name: Dotfiles installation
   hosts: local
   roles:
+    - role: crivetimihai.virtualization.podman
+      tags: podman
+    - role: crivetimihai.virtualization.docker
+      tags: docker
     - role: system_packages
       tags: system_packages
     - role: oh_my_bash
       tags: oh_my_bash
     - role: asdf
       tags: asdf
+    - role: spacevim
+      tags: spacevim
+    - role: molecule
+      tags: molecule
+    - role: mitogen
+      tags: mitogen

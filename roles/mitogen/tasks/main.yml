@@ -1,0 +1,11 @@
+- name: fetch tags from mitogen repository
+  shell: curl --silent 'https://api.github.com/repos/mitogen-hq/mitogen/tags'
+  register: mitogen_tags_response
+  args:
+    warn: no
+
+- name: mitogen installation
+  git:
+    repo: "https://github.com/mitogen-hq/mitogen.git"
+    dest: $HOME/.mitogen
+    version: "{{ mitogen_tags_response.stdout | regex_search('v\\d+\\.\\d+\\.\\d+') }}"

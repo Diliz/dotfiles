@@ -1,0 +1,3 @@
+- name: Install spacevim
+  shell: |
+    source $HOME/.bashrc && bash -c "$(curl -fsSL https://spacevim.org/install.sh)"

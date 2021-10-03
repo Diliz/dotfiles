@@ -15,10 +15,16 @@ function install_dependencies () {
 }
 
 function install_dotfiles () {
-    rm -Rf $HOME/.dotfiles
-    git clone https://github.com/Diliz/dotfiles.git $HOME/.dotfiles
-    cd $HOME/.dotfiles && ANSIBLE_BECOME_PASSWORD=toto ansible-playbook dotfiles.yml
-    . $HOME/.bashrc
+    DOTFILES_PATH="$HOME/.dotfiles"
+    if [ -d "$DOTFILES_PATH" ]; then
+        cd $HOME/.dotfiles
+        git pull origin main
+    else
+        git clone https://github.com/Diliz/dotfiles.git $HOME/.dotfiles
+        cd $HOME/.dotfiles
+    fi
+    ansible-galaxy collection install -r requirements.yml
+    ANSIBLE_BECOME_PASSWORD=toto ansible-playbook dotfiles.yml
 }
 
 function install () {

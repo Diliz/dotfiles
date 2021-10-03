@@ -1,0 +1,9 @@
+- name: install requirements
+  package:
+    name: "{{ molecule_requirements }}"
+    state: present
+  become: yes
+
+- name: install molecule
+  shell: |
+    source $HOME/.asdf/asdf.sh && pip install --user molecule[ansible,docker,lint]
