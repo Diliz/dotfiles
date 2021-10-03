@@ -1,4 +1,6 @@
 asdf_plugins:
+  - ansible-base
+  - poetry
   - python
   - nodejs
   - vim
@@ -17,10 +19,8 @@ asdf_plugins:
   - minio
   - rclone
   - pulumi
-  - poetry
   - mkcert
   - kubectx
-  - ansible-base
 
 system_packages:
   - sshpass

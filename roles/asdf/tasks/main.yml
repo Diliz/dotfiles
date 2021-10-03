@@ -2,7 +2,7 @@
   shell: curl --silent 'https://api.github.com/repos/asdf-vm/asdf/tags'
   register: asdf_tags_response
   args:
-    warn: no  
+    warn: no
 
 - name: asdf installation
   git:
@@ -18,19 +18,19 @@
   loop:
     - ". $HOME/.asdf/asdf.sh"
     - ". $HOME/.asdf/completions/asdf.bash"
-    - "OSH_THEME='agnoster'"
+    # - "OSH_THEME='agnoster'"
 
 - name: add asdf plugins
   shell: |
-    . $HOME/.asdf/asdf.sh
-    asdf plugin-add {{ item }}
+    source $HOME/.asdf/asdf.sh && \
+    (asdf list {{ item }} || asdf plugin-add {{ item }})
   args:
     executable: /bin/bash
   loop: "{{ asdf_plugins }}"
 
 - name: install latest plugin packages
   shell: |
-    . $HOME/.asdf/asdf.sh
+    source $HOME/.asdf/asdf.sh && \
     asdf install {{ item }} latest
   args:
     executable: /bin/bash
@@ -38,7 +38,7 @@
 
 - name: enable global plugin packages
   shell: |
-    . $HOME/.asdf/asdf.sh
+    source $HOME/.asdf/asdf.sh && \
     asdf global {{ item }} latest
   args:
     executable: /bin/bash
