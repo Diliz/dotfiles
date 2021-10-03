@@ -1,5 +1,7 @@
 - name: Dotfiles installation
   hosts: local
+  environment:
+    PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.asdf/shims:{{ ansible_env.HOME }}/.asdf/bin"
   roles:
     - role: system_packages
       tags: system_packages
@@ -15,5 +17,5 @@
       tags: mitogen
     - role: crivetimihai.virtualization.podman
       tags: podman
-    - role: crivetimihai.virtualization.docker
-      tags: docker
+    # - role: crivetimihai.virtualization.docker
+    #   tags: docker

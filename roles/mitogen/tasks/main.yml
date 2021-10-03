@@ -8,4 +8,4 @@
   git:
     repo: "https://github.com/mitogen-hq/mitogen.git"
     dest: $HOME/.mitogen
-    version: "{{ mitogen_tags_response.stdout | regex_search('v\\d+\\.\\d+\\.\\d+') }}"
+    version: "{{ mitogen_tags_response.stdout | regex_search('v\\d+\\.\\d+\\.\\d+?([-rc\\d]+)') }}"

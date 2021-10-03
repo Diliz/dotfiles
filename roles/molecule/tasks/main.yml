@@ -5,5 +5,4 @@
   become: yes
 
 - name: install molecule
-  shell: |
-    source $HOME/.asdf/asdf.sh && pip install --user molecule[ansible,docker,lint]
+  shell: pip install --user molecule[ansible,docker,lint]
