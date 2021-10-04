@@ -72,10 +72,6 @@
     append: true
   become: true
 
-# - name: add current user to docker group
-#   command: gpasswd --add {{ ansible_env.USER }} docker
-#   become: true
-
 - name: reload groups config
   command: newgrp docker
 
