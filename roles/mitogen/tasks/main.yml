@@ -1,11 +1,25 @@
 - name: fetch tags from mitogen repository
-  shell: curl --silent 'https://api.github.com/repos/mitogen-hq/mitogen/tags'
+  shell: curl --silent -u $GITHUB_USERNAME:$GITHUB_PASSWORD 'https://api.github.com/repos/mitogen-hq/mitogen/tags'
   register: mitogen_tags_response
   args:
-    warn: no
+    warn: false
+  changed_when: false
 
 - name: mitogen installation
   git:
     repo: "https://github.com/mitogen-hq/mitogen.git"
-    dest: $HOME/.mitogen
+    dest: "{{ ansible_env.HOME  }}/.mitogen"
     version: "{{ mitogen_tags_response.stdout | regex_search('v\\d+\\.\\d+\\.\\d+?([-rc\\d]+)') }}"
+
+- name: setup ansible cfg for mitogen
+  ini_file:
+    path: "{{ ansible_env.HOME  }}/.ansible.cfg"
+    section: defaults
+    option: "{{ item.option }}"
+    value: "{{ item.value }}"
+    mode: "0644"
+  loop:
+    - option: strategy_plugins
+      value: "{{ ansible_env.HOME  }}/.mitogen/ansible_mitogen/plugins/strategy"
+    - option: strategy
+      value: "mitogen_linear"
