@@ -1,0 +1,2 @@
+- include: install_ubuntu.yml
+  when: ansible_facts['distribution'] == "Ubuntu"

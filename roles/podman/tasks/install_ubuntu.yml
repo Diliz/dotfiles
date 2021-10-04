@@ -1,0 +1,44 @@
+- name: get ubuntu version id
+  command: lsb_release -rs
+  register: version_id
+  changed_when: false
+
+- name: add podman apt key
+  apt_key:
+    url: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_{{ version_id.stdout }}/Release.key"
+    state: present
+  become: true
+
+- name: setup podman apt repository
+  apt_repository:
+    repo: "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_{{ version_id.stdout }} /"
+    filename: podman
+    state: present
+  become: true
+
+- name: upgrade packages
+  apt:
+    upgrade: safe
+  become: true
+
+- name: add podman package
+  apt:
+    update_cache: true
+    name:
+      - podman
+    state: present
+  become: true
+
+- name: setup podman default registries
+  become: true
+  ini_file:
+    path: "{{ ansible_env.HOME }}/.config/containers/registries.conf"
+    option: "unqualified-search-registries"
+    section: ""
+    value:
+      - "docker.io"
+      - "registry.fedoraproject.org"
+      - "quay.io"
+      - "registry.access.redhat.com"
+      - "registry.centos.org"
+    mode: "0644"
