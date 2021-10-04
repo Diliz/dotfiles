@@ -15,7 +15,7 @@
       tags: molecule
     - role: mitogen
       tags: mitogen
-    - role: crivetimihai.virtualization.podman
+    - role: docker
+      tags: docker
+    - role: podman
       tags: podman
-    # - role: crivetimihai.virtualization.docker
-    #   tags: docker
