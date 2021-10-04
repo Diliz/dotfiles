@@ -1,28 +1,29 @@
 - name: fetch tags from asdf repository
-  shell: curl --silent 'https://api.github.com/repos/asdf-vm/asdf/tags'
+  shell: curl --silent -u $GITHUB_USERNAME:$GITHUB_PASSWORD 'https://api.github.com/repos/asdf-vm/asdf/tags'
   register: asdf_tags_response
   args:
-    warn: no
+    warn: false
+  changed_when: false
 
 - name: asdf installation
   git:
     repo: "https://github.com/asdf-vm/asdf.git"
-    dest: $HOME/.asdf
+    dest: "{{ ansible_env.HOME  }}/.asdf"
     version: "{{ asdf_tags_response.stdout | regex_search('v\\d+\\.\\d+\\.\\d+') }}"
 
 - name: add asdf to bashrc
   lineinfile:
-    path: $HOME/.bashrc
+    path: "{{ ansible_env.HOME  }}/.bashrc"
     line: "{{ item }}"
     state: present
   loop:
-    - ". $HOME/.asdf/asdf.sh"
-    - ". $HOME/.asdf/completions/asdf.bash"
+    - ". {{ ansible_env.HOME  }}/.asdf/asdf.sh"
+    - ". {{ ansible_env.HOME  }}/.asdf/completions/asdf.bash"
     # - "OSH_THEME='agnoster'"
 
 - name: add asdf plugins
   shell: |
-    source $HOME/.asdf/asdf.sh && \
+    source {{ ansible_env.HOME  }}/.asdf/asdf.sh && \
     (asdf list {{ item }} || asdf plugin-add {{ item }})
   args:
     executable: /bin/bash
