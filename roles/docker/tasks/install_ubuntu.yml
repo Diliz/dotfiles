@@ -1,0 +1,89 @@
+- name: remove bad docker packages
+  apt:
+    update_cache: true
+    name:
+      - docker
+      - docker-engine
+      - docker.io
+      - containerd
+      - runc
+    state: absent
+  become: true
+
+- name: add docker dependencies
+  apt:
+    update_cache: true
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+    state: present
+  become: true
+
+- name: add docker apt key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+    keyring: /usr/share/keyrings/docker-archive-keyring.gpg
+  become: true
+
+- name: get ubuntu release name
+  command: lsb_release -cs
+  register: lsb_release
+  changed_when: false
+
+- name: get current architecture
+  shell: |
+    declare -A architectures=([aarch64]='arm64' [x86_64]='amd64')
+    echo ${architectures["$(uname -m)"]}
+  register: architecture
+  args:
+    executable: /bin/bash
+  changed_when: false
+
+- name: setup docker apt repository
+  apt_repository:
+    repo: "deb [arch={{ architecture.stdout }} signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu {{ lsb_release.stdout }} stable"
+    state: present
+  become: true
+
+- name: add docker packages
+  apt:
+    update_cache: true
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+    state: present
+  become: true
+
+- name: add docker group
+  group:
+    name: docker
+    state: present
+  become: true
+
+- name: add current user to docker group
+  user:
+    name: "{{ ansible_env.USER }}"
+    groups: docker
+    append: true
+  become: true
+
+# - name: add current user to docker group
+#   command: gpasswd --add {{ ansible_env.USER }} docker
+#   become: true
+
+- name: reload groups config
+  command: newgrp docker
+
+- name: activate docker service
+  systemd:
+    name: "{{ item }}"
+    enabled: true
+  become: true
+  loop:
+    - docker.service
+    - containerd.service
